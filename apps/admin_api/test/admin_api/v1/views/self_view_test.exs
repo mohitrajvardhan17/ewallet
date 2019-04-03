@@ -38,6 +38,7 @@ defmodule AdminAPI.V1.SelfViewTest do
           provider_user_id: user.provider_user_id,
           email: user.email,
           enabled: user.enabled,
+          enabled_2fa_at: nil,
           avatar: %{
             original: nil,
             large: nil,
