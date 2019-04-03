@@ -226,6 +226,12 @@ defmodule AdminAPI.V1.Router do
     # Activity logs endpoint
     post("/activity_log.all", ActivityLogController, :all)
 
+    # 2FA endpoints
+    post("/2fa.create_backup_codes", TwoFactorAuthController, :create_backup_codes)
+    post("/2fa.create_secret_code", TwoFactorAuthController, :create_secret_code)
+    post("/2fa.enable", TwoFactorAuthController, :enable)
+    post("/2fa.disable", TwoFactorAuthController, :disable)
+
     # Self endpoints (operations on the currently authenticated user)
     post("/me.get", SelfController, :get)
     post("/me.get_accounts", SelfController, :get_accounts)
@@ -243,12 +249,14 @@ defmodule AdminAPI.V1.Router do
   end
 
   # Public endpoints and Fallback endpoints.
-  # Gandles all remaining routes
+  # Handles all remaining routes
   # that are not handled by the scopes above.
   scope "/", AdminAPI.V1 do
     pipe_through([:api])
 
     post("/admin.login", AdminAuthController, :login)
+    post("/2fa.verify_passcode", TwoFactorAuthController, :verify)
+    post("/2fa.verify_backup_code", TwoFactorAuthController, :verify)
     post("/invite.accept", InviteController, :accept)
 
     # Forget Password endpoints
